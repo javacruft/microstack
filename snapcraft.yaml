@@ -318,6 +318,7 @@ parts:
       - libxml2-dev
       - libxslt1-dev
       - libvirt-dev
+      - libsystemd-dev
     stage-packages:
       - conntrack
       - coreutils
