@@ -297,6 +297,7 @@ parts:
     constraints: https://raw.githubusercontent.com/openstack/requirements/stable/rocky/upper-constraints.txt
     source: http://tarballs.openstack.org/keystone/keystone-stable-rocky.tar.gz
     python-packages:
+      - systemd-python
       - libvirt-python
       - oslo.cache[dogpile]
       - pymysql
