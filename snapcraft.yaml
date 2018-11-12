@@ -38,6 +38,9 @@ apps:
   keystone-uwsgi:
     command: snap-openstack keystone-uwsgi
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network-bind
   keystone-manage:
@@ -49,26 +52,43 @@ apps:
   nova-uwsgi:
     command: snap-openstack nova-uwsgi
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network-bind
   nova-api:
     command: snap-openstack nova-api-os-compute
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network-bind
   nova-conductor:
     command: snap-openstack nova-conductor
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network
   nova-scheduler:
     command: snap-openstack nova-scheduler
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network
   nova-compute:
     command: snap-openstack nova-compute
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
+     - libvirtd
+     - nova-conductor
 #    plugs:
 #      - network-bind
 #      - network-control
@@ -79,6 +99,9 @@ apps:
   nova-api-metadata:
     command: snap-openstack nova-api-metadata
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network-bind
 #      - firewall-control
@@ -91,11 +114,19 @@ apps:
   neutron-api:
     command: snap-openstack neutron-server
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network-bind
   neutron-openvswitch-agent:
     command: snap-openstack neutron-openvswitch-agent
     daemon: simple
+    after:
+     - rabbitmq-server
+     - neutron-api
+     - ovs-vswitchd
+     - ovsdb-server
 #    plugs:
 #      - network-bind
 #      - network-control
@@ -107,6 +138,10 @@ apps:
   neutron-l3-agent:
     command: snap-openstack neutron-l3-agent
     daemon: simple
+    after:
+     - rabbitmq-server
+     - neutron-api
+     - neutron-openvswitch-agent
 #    plugs:
 #      - network-bind
 #      - network-control
@@ -118,6 +153,10 @@ apps:
   neutron-dhcp-agent:
     command: snap-openstack neutron-dhcp-agent
     daemon: simple
+    after:
+     - rabbitmq-server
+     - neutron-api
+     - neutron-openvswitch-agent
 #    plugs:
 #      - network
 #      - network-bind
@@ -129,6 +168,10 @@ apps:
   neutron-metadata-agent:
     command: snap-openstack neutron-metadata-agent
     daemon: simple
+    after:
+     - rabbitmq-server
+     - neutron-api
+     - neutron-openvswitch-agent
 #    plugs:
 #      - network
 #      - network-bind
@@ -153,11 +196,17 @@ apps:
   glance-api:
     command: snap-openstack glance-api
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network-bind
   registry:
     command: snap-openstack glance-registry
     daemon: simple
+    after:
+     - rabbitmq-server
+     - mysqld
 #    plugs:
 #      - network
 #      - network-bind
@@ -170,6 +219,10 @@ apps:
   nginx:
     command: snap-openstack nginx
     daemon: forking
+    after:
+     - nova-uwsgi
+     - horizon-uwsgi
+     - keystone-uwsgi
 #    plugs:
 #      - network-bind
 
