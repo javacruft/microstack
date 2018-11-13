@@ -796,6 +796,8 @@ parts:
       - libaio-dev
       - xsltproc
       - docbook-xsl
+    snap:
+      - -etc/tgt/targets.conf
 
   launch:
     plugin: dump
