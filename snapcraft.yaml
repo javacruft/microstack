@@ -751,6 +751,17 @@ parts:
       - --with-default-system-dir=/var/snap/$SNAPCRAFT_PROJECT_NAME/common/etc/
     build-attributes: [no-patchelf]
 
+  thin-provisioning-tools:
+    source: https://github.com/jthornber/thin-provisioning-tools/archive/v0.7.6.tar.gz
+    plugin: autotools
+    build-packages:
+      - libaio-dev
+      - libboost-dev
+      - libexpat1-dev
+      - libgtest-dev
+    stage-packges:
+      - libaio1
+
   # Misc utils for hypervisor networking
   bridge-utils:
     source: https://www.kernel.org/pub/linux/utils/net/bridge-utils/bridge-utils-1.6.tar.gz
