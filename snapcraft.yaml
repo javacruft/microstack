@@ -796,8 +796,9 @@ parts:
       - libaio-dev
       - xsltproc
       - docbook-xsl
-    snap:
-      - -etc/tgt/targets.conf
+    override-build: |
+      snapcraftctl build
+      rm $SNAPCRAFT_PART_INSTALL/etc/tgt/targets.conf
 
   launch:
     plugin: dump
