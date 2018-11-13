@@ -759,7 +759,7 @@ parts:
       - libboost-dev
       - libexpat1-dev
       - libgtest-dev
-    stage-packges:
+    stage-packages:
       - libaio1
 
   # Misc utils for hypervisor networking
