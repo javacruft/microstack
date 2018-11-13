@@ -1,5 +1,12 @@
 #!/bin/bash -e
 
+# Make conf.d configuration from snap for local overrides
+
+echo "Creating .d configuration directories for OpenStack Services"
+for project in neutron nova keystone glance cinder horizon; do
+    mkdir -p ${SNAP_COMMON}/etc/${project}/${project}.conf.d
+done
+
 # Create all of the databases
 echo "Creating OpenStack Databases"
 
@@ -51,3 +58,43 @@ openstack image show cirros || {
     openstack image create --file ${HOME}/images/cirros-0.3.5-x86_64-disk.img \
         --public --container-format=bare --disk-format=qcow2 cirros
 }
+
+while ! nc -z localhost 8776; do sleep 0.1; done;
+
+sleep 5
+
+openstack user show cinder || {
+    openstack user create --domain default --password cinder cinder
+    openstack role add --project service --user cinder admin
+}
+
+openstack service show volumev2 || {
+    openstack service create --name cinderv2 \
+      --description "OpenStack Block Storage" volumev2
+
+    for endpoint in internal admin public; do
+        openstack endpoint create --region RegionOne \
+            volumev2 $endpoint http://localhost:8776/v2/%\(project_id\)s || :
+    done
+}
+
+openstack service show volumev3 || {
+    openstack service create --name cinderv3 \
+      --description "OpenStack Block Storage" volumev3
+
+    for endpoint in internal admin public; do
+        openstack endpoint create --region RegionOne \
+            volumev3 $endpoint http://localhost:8776/v3/%\(project_id\)s || :
+    done
+}
+
+snap-openstack cinder-manage db sync
+
+# Create a file-based loopback device with the cinder volume group on it
+if [ ! -e $SNAP_COMMON/lib/cinder-volumes-file ]; then
+    mkdir -p $SNAP_COMMON/lib
+    truncate -s 4096M $SNAP_COMMON/lib/cinder-volumes-file
+    loop_dev=$(sudo losetup -f --show $SNAP_COMMON/lib/cinder-volumes-file)
+    sudo vgcreate cinder-volumes $loop_dev
+    sudo vgs cinder-volumes
+fi
