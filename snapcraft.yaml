@@ -288,6 +288,12 @@ apps:
 #    plugs:
 #      - network
 
+  tgtd:
+    command: usr/sbin/tgtd -f
+    daemon: simple
+#    plugs:
+#      - network-bind
+
   # Horizon
   horizon-uwsgi:
     command: snap-openstack horizon-uwsgi
@@ -780,6 +786,14 @@ parts:
       - libmnl-dev
     configflags:
       - "--with-kmod=no"
+
+  tgt:
+    source: https://github.com/fujita/tgt/archive/v1.0.74.tar.gz
+    plugin: make
+    build-packages:
+      - libaio-dev
+      - xsltproc
+      - docbook-xsl
 
   launch:
     plugin: dump
