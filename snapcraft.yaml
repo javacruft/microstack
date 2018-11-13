@@ -291,6 +291,8 @@ apps:
   tgtd:
     command: usr/sbin/tgtd -f
     daemon: simple
+    environment:
+      TGTD_CONFIG: $SNAP/etc/tgt/targets.conf
 #    plugs:
 #      - network-bind
 

@@ -99,4 +99,9 @@ if [ ! -e $SNAP_COMMON/lib/cinder-volumes-file ]; then
     sudo vgs cinder-volumes
 fi
 
+if [ ! -d $SNAP_COMMON/etc/tgt/conf.d ]; then
+    mkdir -p $SNAP_COMMON/etc/tgt/conf.d
+    systemctl restart snap.microstack.tgtd
+fi
+
 systemctl restart snap.microstack.cinder-*
