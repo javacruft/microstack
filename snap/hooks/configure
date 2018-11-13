@@ -98,3 +98,5 @@ if [ ! -e $SNAP_COMMON/lib/cinder-volumes-file ]; then
     sudo vgcreate cinder-volumes $loop_dev
     sudo vgs cinder-volumes
 fi
+
+systemctl restart snap.microstack.cinder-*
