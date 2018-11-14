@@ -749,6 +749,10 @@ parts:
     configflags:
       - --with-confdir=/var/snap/$SNAPCRAFT_PROJECT_NAME/common/etc/
       - --with-default-system-dir=/var/snap/$SNAPCRAFT_PROJECT_NAME/common/etc/
+      - --with-thin-check=/snap/$SNAPCRAFT_PROJECT_NAME/current/sbin/thin_check
+      - --with-thin-dump=/snap/$SNAPCRAFT_PROJECT_NAME/current/sbin/thin_dump
+      - --with-thin-repair=/snap/$SNAPCRAFT_PROJECT_NAME/current/sbin/thin_repair
+      - --with-thin-restore=/snap/$SNAPCRAFT_PROJECT_NAME/current/sbin/thin_restore
     build-attributes: [no-patchelf]
 
   thin-provisioning-tools:
