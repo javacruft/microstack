@@ -268,9 +268,9 @@ apps:
     daemon: simple
 #    plugs:
 #      - network-bind
-  cinder-backup:
-    command: snap-openstack cinder-backup
-    daemon: simple
+#  cinder-backup:
+#    command: snap-openstack cinder-backup
+#    daemon: simple
 #    plugs:
 #      - network
   cinder-manage:
